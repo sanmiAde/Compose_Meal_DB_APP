@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">(Compose) Meal DB APp</string>
+    <string name="meal_categories.error">Could not fetch meal categories</string>
 </resources>

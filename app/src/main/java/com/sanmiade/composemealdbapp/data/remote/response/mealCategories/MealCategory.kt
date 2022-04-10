@@ -1,4 +1,4 @@
-package com.sanmiade.composemealdbapp.data.remote.response
+package com.sanmiade.composemealdbapp.data.remote.response.mealCategories
 
 import com.sanmiade.composemealdbapp.domain.model.MealCategoryModel
 import kotlinx.serialization.SerialName

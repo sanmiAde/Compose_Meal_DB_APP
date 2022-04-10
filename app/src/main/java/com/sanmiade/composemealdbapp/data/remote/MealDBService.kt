@@ -1,7 +1,6 @@
 package com.sanmiade.composemealdbapp.data.remote
 
-import com.sanmiade.composemealdbapp.data.remote.response.MealCategoriesResponse
-import com.sanmiade.composemealdbapp.data.remote.response.MealCategory
+import com.sanmiade.composemealdbapp.data.remote.response.mealCategories.MealCategoriesResponse
 import retrofit2.http.GET
 
 interface MealDBService {
