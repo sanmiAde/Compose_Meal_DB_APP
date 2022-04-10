@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class GetMealCategoriesUseCase @Inject constructor(
-    private val categoryRepository: MealCategoriesRepository,
+    private val mealCategoryRepository: MealCategoriesRepository,
     private val asyncDispatcher: AsyncDispatcher
 ) {
     suspend operator fun invoke(): Result<List<MealCategoryModel>> =
         withContext(asyncDispatcher.io) {
-            categoryRepository.getMealCategories()
+            mealCategoryRepository.getMealCategories()
         }
 }
