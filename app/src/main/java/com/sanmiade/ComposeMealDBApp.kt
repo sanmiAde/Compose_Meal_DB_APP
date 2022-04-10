@@ -1,4 +1,7 @@
 package com.sanmiade
 
-class ComposeMealDBApp {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class ComposeMealDBApp :Application()
