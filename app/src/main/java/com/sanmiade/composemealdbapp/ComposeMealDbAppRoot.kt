@@ -8,15 +8,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
+import com.sanmiade.composemealdbapp.ui.components.BottomBar
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesScreen
 import com.sanmiade.composemealdbapp.ui.features.mealCategory.MealScreen
@@ -35,7 +31,7 @@ sealed class Screen(
     object SearchMeals : Screen("search_meals", R.string.bottom_bar_search_meals, Icons.Default.Search )
 }
 
-val screens = listOf(Screen.MealCategories, Screen.SearchMeals, Screen.SavedMeals)
+val bottomBarScreens = listOf(Screen.MealCategories, Screen.SearchMeals, Screen.SavedMeals)
 
 @Composable
 fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDbAppState()) {
@@ -71,36 +67,6 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                     SavedMeals()
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun BottomBar(appState: ComposeMealDbAppState) {
-    BottomAppBar {
-        val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-        screens.forEach { screen ->
-            BottomNavigationItem(
-                icon = { Icon(screen.icon!!, contentDescription = null) },
-                label = { Text(stringResource(screen.resourceId)) },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                onClick = {
-                    appState.navController.navigate(screen.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(appState.navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
-                    }
-                }
-            )
         }
     }
 }
