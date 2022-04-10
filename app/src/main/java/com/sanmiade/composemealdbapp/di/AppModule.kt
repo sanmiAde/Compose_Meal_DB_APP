@@ -2,9 +2,9 @@ package com.sanmiade.composemealdbapp.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sanmiade.composemealdbapp.BuildConfig
+import com.sanmiade.composemealdbapp.data.CoroutinesDispatcher
 import com.sanmiade.composemealdbapp.data.remote.MealDBService
 import com.sanmiade.composemealdbapp.domain.AsyncDispatcher
-import com.sanmiade.composemealdbapp.domain.CoroutinesDispatcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

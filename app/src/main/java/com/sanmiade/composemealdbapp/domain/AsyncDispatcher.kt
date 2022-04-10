@@ -9,9 +9,3 @@ public interface AsyncDispatcher {
     public val io: CoroutineDispatcher
     public val default: CoroutineDispatcher
 }
-
-class CoroutinesDispatcher @Inject constructor() : AsyncDispatcher {
-    override val main: CoroutineDispatcher get() = Dispatchers.Main
-    override val io: CoroutineDispatcher get() = Dispatchers.IO
-    override val default: CoroutineDispatcher get() = Dispatchers.Default
-}
