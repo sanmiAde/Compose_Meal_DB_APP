@@ -1,6 +1,5 @@
 package com.sanmiade.composemealdbapp.ui.features.mealCategories
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sanmiade.composemealdbapp.R
@@ -23,7 +22,7 @@ class MealCategoriesViewModel @Inject constructor(private val getMealCategoriesU
         getMealCategories()
     }
 
-    fun handleError(mealCategoriesEvent: MealCategoriesEvent) {
+    fun handleEvent(mealCategoriesEvent: MealCategoriesEvent) {
         when (mealCategoriesEvent) {
             MealCategoriesEvent.ErrorDismissed -> {
                 dismissError()
