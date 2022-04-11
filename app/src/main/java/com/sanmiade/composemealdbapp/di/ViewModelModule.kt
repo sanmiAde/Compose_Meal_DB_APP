@@ -3,7 +3,6 @@ package com.sanmiade.composemealdbapp.di
 import com.sanmiade.composemealdbapp.data.remote.datasource.RemoteMealCategoriesDataSource
 import com.sanmiade.composemealdbapp.data.remote.datasource.RemoteMealCategoriesDataSourceImpl
 import com.sanmiade.composemealdbapp.data.remote.repo.MealCategoriesRepositoryImpl
-import com.sanmiade.composemealdbapp.domain.CoroutinesDispatcher
 import com.sanmiade.composemealdbapp.domain.repo.MealCategoriesRepository
 import dagger.Binds
 import dagger.Module

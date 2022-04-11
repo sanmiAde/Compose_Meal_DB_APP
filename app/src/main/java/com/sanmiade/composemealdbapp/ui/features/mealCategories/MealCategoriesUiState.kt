@@ -10,7 +10,7 @@ data class MealCategoriesUiState(
     @StringRes val error: Int? = null
 )
 
-fun MealCategoriesUiState.toLoading() = copy(showProgress = false, showError = false, error = null)
+fun MealCategoriesUiState.toLoading() = copy(showProgress = true, showError = false, error = null)
 
 fun MealCategoriesUiState.toSuccess(categories: List<MealCategoryModel>) =
     copy(categories = categories, showProgress = false, showError = false, error = null)
