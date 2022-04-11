@@ -1,48 +1,79 @@
 package com.sanmiade.composemealdbapp.ui.components
 
+import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.sanmiade.composemealdbapp.Screen
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.sanmiade.composemealdbapp.domain.model.MealCategoryModel
-import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesEvent
-import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MealCategoryItem(
     modifier: Modifier,
     mealCategoryModel: MealCategoryModel,
-    event: (MealCategoriesNavigationEvent) -> Unit
+    onCardClick: (id: String) -> Unit,
 ) {
-    Column(modifier = modifier.clickable {
-        event(
-            MealCategoriesNavigationEvent.ShowMealCategory(
-                mealId = mealCategoryModel.id
-            )
-        )
+    val context = LocalContext.current
+    Card(modifier = modifier, onClick = {
+        onCardClick("hello")
     }) {
-        Text(text = mealCategoryModel.category)
-        Text(text = mealCategoryModel.description, maxLines = 1)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            AsyncImage(
+                modifier = Modifier.fillMaxWidth(),
+                model = mealCategoryModel.thumbnail,
+                contentDescription = mealCategoryModel.category,
+                contentScale = ContentScale.FillBounds,
+            )
+            Row {
+                Text(text = mealCategoryModel.category)
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "Meal category info",
+                    Modifier.clickable {
+                        // TODO: Use bottom sheet here
+                        Toast.makeText(context, mealCategoryModel.description, Toast.LENGTH_SHORT)
+                            .show()
+                    })
+            }
+        }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MealCategories(
     modifier: Modifier,
     mealCategoryModels: List<MealCategoryModel>,
-    event: (MealCategoriesNavigationEvent) -> Unit
+    onCardClick: (mealCategoryId: String) -> Unit,
 ) {
-    LazyColumn {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2)
+    ) {
         items(mealCategoryModels.size) { mealCategoryModelIndex ->
             val mealCategoryModel = mealCategoryModels[mealCategoryModelIndex]
             MealCategoryItem(
-                modifier = Modifier,
+                modifier = modifier.padding(8.dp),
                 mealCategoryModel = mealCategoryModel,
-                event = event
+                onCardClick = onCardClick,
             )
         }
     }

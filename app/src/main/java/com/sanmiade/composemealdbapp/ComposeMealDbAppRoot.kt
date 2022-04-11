@@ -2,6 +2,7 @@ package com.sanmiade.composemealdbapp
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -26,15 +27,27 @@ sealed class Screen(
     @StringRes val resourceId: Int,
     val icon: ImageVector? = null
 ) {
-    object MealCategories :
-        Screen("meal_categories", R.string.bottom_bar_meals_categories, Icons.Default.List)
+    object MealCategories : Screen(
+        "meal_categories", R.string.bottom_bar_meals_categories,
+        Icons.Default.List
+    )
 
-    object MealCategory : Screen("meal_category", R.string.bottom_bar_meals)
+    object MealCategory : Screen(
+        "meal_category",
+        R.string.bottom_bar_meals
+    )
+
     object SavedMeals :
-        Screen("saved_meals", R.string.bottom_bar_saved_meals, Icons.Default.Favorite)
+        Screen(
+            "saved_meals", R.string.bottom_bar_saved_meals,
+            Icons.Default.Favorite
+        )
 
     object SearchMeals :
-        Screen("search_meals", R.string.bottom_bar_search_meals, Icons.Default.Search)
+        Screen(
+            "search_meals", R.string.bottom_bar_search_meals,
+            Icons.Default.Search
+        )
 }
 
 val bottomBarScreens = listOf(Screen.MealCategories, Screen.SearchMeals, Screen.SavedMeals)
@@ -50,10 +63,11 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
         ) {
             NavHost(
                 navController = appState.navController,
-                startDestination = Screen.MealCategories.route
+                startDestination = Screen.MealCategories.route,
+                modifier = Modifier.padding(it)
             ) {
                 composable(Screen.MealCategories.route) {
-                    MealCategoriesScreen(viewModel = hiltViewModel()) { event: MealCategoriesNavigationEvent ->
+                    MealCategoriesScreen { event: MealCategoriesNavigationEvent ->
                         when (event) {
                             is MealCategoriesNavigationEvent.ShowMealCategory -> {
                                 appState.navController.navigate(Screen.MealCategory.route)
