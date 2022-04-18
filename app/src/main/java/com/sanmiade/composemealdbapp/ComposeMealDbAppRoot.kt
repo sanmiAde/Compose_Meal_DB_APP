@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sanmiade.composemealdbapp.ui.components.BottomBar
@@ -32,9 +33,12 @@ sealed class Screen(
     )
 
     object MealCategory : Screen(
-        "meal_category",
+        "meal_category/{meal_category_name}",
         R.string.bottom_bar_meals
-    )
+    ) {
+        val mealCategoryName = "meal_category_name"
+        fun createRoute(mealCategoryName: String) ="meal_category/${mealCategoryName}"
+    }
 
     object SavedMeals :
         Screen(
@@ -72,13 +76,14 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                     MealCategoriesScreen { event: MealCategoriesNavigationEvent ->
                         when (event) {
                             is MealCategoriesNavigationEvent.ShowMealCategory -> {
-                                appState.navController.navigate(Screen.MealCategory.route)
+                                appState.navController.navigate(Screen.MealCategory.createRoute(event.mealId))
                             }
                         }
                     }
                 }
-                composable(Screen.MealCategory.route) {
-                    MealScreen()
+                composable(Screen.MealCategory.route) { navBackStackEntry: NavBackStackEntry ->
+                    val mealCategoryId = navBackStackEntry.arguments?.getString(Screen.MealCategory.mealCategoryName)!!
+                    MealScreen(mealCategoryName = mealCategoryId)
                 }
 
                 composable(Screen.SearchMeals.route) {

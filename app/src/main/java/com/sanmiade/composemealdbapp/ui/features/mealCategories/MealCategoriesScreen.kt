@@ -41,8 +41,8 @@ fun MealCategoriesContent(
         MealCategories(
             modifier = modifier,
             mealCategoryModels = mealCategoriesUiState.categories,
-            onCardClick = { mealCategoryId: String ->
-                handleNavigationEvent(MealCategoriesNavigationEvent.ShowMealCategory(mealCategoryId))
+            onCardClick = { mealCategoryName: String ->
+                handleNavigationEvent(MealCategoriesNavigationEvent.ShowMealCategory(mealCategoryName))
             },
         )
     }

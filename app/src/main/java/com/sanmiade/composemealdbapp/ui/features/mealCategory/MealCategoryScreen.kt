@@ -4,6 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun MealScreen() {
-    Text("Hello Meals")
+fun MealScreen(mealCategoryName: String) {
+    Text("$mealCategoryName")
 }

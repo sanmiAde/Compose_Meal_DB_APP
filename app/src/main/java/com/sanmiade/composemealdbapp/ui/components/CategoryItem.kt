@@ -31,7 +31,7 @@ fun MealCategoryItem(
 ) {
     val context = LocalContext.current
     Card(modifier = modifier, onClick = {
-        onCardClick("hello")
+        onCardClick(mealCategoryModel.title)
     }) {
         Column(
             modifier = Modifier
@@ -42,7 +42,7 @@ fun MealCategoryItem(
             AsyncImage(
                 modifier = Modifier.height(150.dp),
                 model = mealCategoryModel.thumbnail,
-                contentDescription = mealCategoryModel.category,
+                contentDescription = mealCategoryModel.title,
                 contentScale = ContentScale.FillBounds,
             )
             Row(
@@ -51,7 +51,7 @@ fun MealCategoryItem(
                     .padding(start = 8.dp, end = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = mealCategoryModel.category)
+                Text(text = mealCategoryModel.title)
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = "Meal category info",
