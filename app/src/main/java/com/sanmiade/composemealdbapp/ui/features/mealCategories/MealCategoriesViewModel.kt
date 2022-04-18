@@ -45,7 +45,7 @@ class MealCategoriesViewModel @Inject constructor(private val getMealCategoriesU
                 }
             }.onFailure {
                 _mealCategoriesUiState.update {
-                    it.toError(R.string.meal_categories_error)
+                    it.toError()
                 }
             }
         }

@@ -12,12 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.sanmiade.composemealdbapp.ui.components.BottomBar
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesScreen
-import com.sanmiade.composemealdbapp.ui.features.mealCategory.MealScreen
+import com.sanmiade.composemealdbapp.ui.features.meals.MealsScreen
 import com.sanmiade.composemealdbapp.ui.features.savedMeals.SavedMeals
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchMealScreen
 import com.sanmiade.composemealdbapp.ui.theme.ComposeMealDBAPpTheme
@@ -37,7 +39,7 @@ sealed class Screen(
         R.string.bottom_bar_meals
     ) {
         val mealCategoryName = "meal_category_name"
-        fun createRoute(mealCategoryName: String) ="meal_category/${mealCategoryName}"
+        fun createRoute(mealCategoryName: String) = "meal_category/${mealCategoryName}"
     }
 
     object SavedMeals :
@@ -57,9 +59,11 @@ val bottomBarScreens = listOf(Screen.MealCategories, Screen.SearchMeals, Screen.
 
 @Composable
 fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDbAppState()) {
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
     ComposeMealDBAPpTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            scaffoldState = scaffoldState,
             topBar = {
                 TopAppBar(title = { Text(text = "Hello") })
             },
@@ -73,17 +77,29 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                 modifier = Modifier.padding(it)
             ) {
                 composable(Screen.MealCategories.route) {
-                    MealCategoriesScreen { event: MealCategoriesNavigationEvent ->
+                    MealCategoriesScreen(scaffoldState) { event: MealCategoriesNavigationEvent ->
                         when (event) {
                             is MealCategoriesNavigationEvent.ShowMealCategory -> {
-                                appState.navController.navigate(Screen.MealCategory.createRoute(event.mealId))
+                                appState.navController.navigate(
+                                    Screen.MealCategory.createRoute(
+                                        event.mealId
+                                    )
+                                )
                             }
                         }
                     }
                 }
-                composable(Screen.MealCategory.route) { navBackStackEntry: NavBackStackEntry ->
-                    val mealCategoryId = navBackStackEntry.arguments?.getString(Screen.MealCategory.mealCategoryName)!!
-                    MealScreen(mealCategoryName = mealCategoryId)
+                composable(
+                    Screen.MealCategory.route,
+                    listOf(navArgument(Screen.MealCategory.mealCategoryName) {
+                        type = NavType.StringType
+                    })
+                ) { navBackStackEntry: NavBackStackEntry ->
+                    val mealCategoryId =
+                        navBackStackEntry.arguments?.getString(Screen.MealCategory.mealCategoryName)!!
+                    MealsScreen(mealCategoryName = mealCategoryId, scaffoldState) {
+
+                    }
                 }
 
                 composable(Screen.SearchMeals.route) {

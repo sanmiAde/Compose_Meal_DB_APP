@@ -24,7 +24,7 @@ import com.sanmiade.composemealdbapp.domain.model.MealCategoryModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MealCategoryItem(
+fun MealCategoryCard(
     modifier: Modifier,
     mealCategoryModel: MealCategoryModel,
     onCardClick: (id: String) -> Unit,
@@ -77,7 +77,7 @@ fun MealCategories(
     ) {
         items(mealCategoryModels.size) { mealCategoryModelIndex ->
             val mealCategoryModel = mealCategoryModels[mealCategoryModelIndex]
-            MealCategoryItem(
+            MealCategoryCard(
                 modifier = modifier
                     .height(200.dp)
                     .padding(8.dp),
