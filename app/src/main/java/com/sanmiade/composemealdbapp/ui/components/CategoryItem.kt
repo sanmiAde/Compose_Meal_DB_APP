@@ -3,10 +3,7 @@ package com.sanmiade.composemealdbapp.ui.components
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.Card
@@ -36,14 +33,24 @@ fun MealCategoryItem(
     Card(modifier = modifier, onClick = {
         onCardClick("hello")
     }) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             AsyncImage(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.height(150.dp),
                 model = mealCategoryModel.thumbnail,
                 contentDescription = mealCategoryModel.category,
                 contentScale = ContentScale.FillBounds,
             )
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(text = mealCategoryModel.category)
                 Icon(
                     imageVector = Icons.Default.Info,
@@ -71,7 +78,9 @@ fun MealCategories(
         items(mealCategoryModels.size) { mealCategoryModelIndex ->
             val mealCategoryModel = mealCategoryModels[mealCategoryModelIndex]
             MealCategoryItem(
-                modifier = modifier.padding(8.dp),
+                modifier = modifier
+                    .height(200.dp)
+                    .padding(8.dp),
                 mealCategoryModel = mealCategoryModel,
                 onCardClick = onCardClick,
             )

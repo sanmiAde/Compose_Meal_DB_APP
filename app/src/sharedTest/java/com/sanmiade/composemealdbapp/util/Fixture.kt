@@ -1,8 +1,7 @@
 package com.sanmiade.composemealdbapp.util
 
+import com.sanmiade.composemealdbapp.data.CoroutinesDispatcher
 import com.sanmiade.composemealdbapp.data.remote.response.mealCategories.MealCategoriesResponse
-import com.sanmiade.composemealdbapp.domain.AsyncDispatcher
-import com.sanmiade.composemealdbapp.domain.CoroutinesDispatcher
 import com.sanmiade.composemealdbapp.domain.model.MealCategoryModel
 import com.sanmiade.composemealdbapp.domain.usecase.GetMealCategoriesUseCase
 
