@@ -1,28 +1,22 @@
 package com.sanmiade.composemealdbapp.ui.features.mealCategories
 
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarResult
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmiade.composemealdbapp.ui.components.MealCategories
 
 @Composable
 fun MealCategoriesScreen(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     navigationEvent: (event: MealCategoriesNavigationEvent) -> Unit
 ) {
     val viewModel: MealCategoriesViewModel = hiltViewModel()
@@ -30,7 +24,7 @@ fun MealCategoriesScreen(
     MealCategoriesContent(
         modifier = Modifier,
         mealCategoriesUiState = mealCategoriesUiState,
-        scaffoldState = scaffoldState,
+        snackBarHostState = snackBarHostState,
         handleNavigationEvent = navigationEvent,
         handleEvent = viewModel::handleEvent
     )
@@ -39,7 +33,7 @@ fun MealCategoriesScreen(
 @Composable
 fun MealCategoriesContent(
     modifier: Modifier,
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     mealCategoriesUiState: MealCategoriesUiState,
     handleNavigationEvent: (event: MealCategoriesNavigationEvent) -> Unit,
     handleEvent: (event: MealCategoriesEvent) -> Unit,
@@ -63,8 +57,8 @@ fun MealCategoriesContent(
 
         mealCategoriesUiState.error?.let {
             val errorMessage = stringResource(id = it)
-            LaunchedEffect(scaffoldState.snackbarHostState) {
-                scaffoldState.snackbarHostState.showSnackbar(
+            LaunchedEffect(snackBarHostState) {
+                snackBarHostState.showSnackbar(
                     message = errorMessage,
                 ).also { snackBarResult: SnackbarResult ->
                     when (snackBarResult) {

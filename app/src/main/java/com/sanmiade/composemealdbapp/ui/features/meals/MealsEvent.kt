@@ -5,5 +5,5 @@ sealed interface MealsEvent {
 }
 
 sealed interface MealsNavigationEvent {
-
+    data class ShowMeal(val id: String) : MealsNavigationEvent
 }

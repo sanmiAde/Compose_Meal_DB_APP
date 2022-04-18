@@ -17,7 +17,7 @@ class MealsViewModel @Inject constructor(
     private val getMealsUseCase: GetMealsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val categoryName: String = savedStateHandle.get(Screen.MealCategory.mealCategoryName)!!
+    private val categoryName: String = savedStateHandle.get(Screen.Meals.mealCategoryName)!!
     private val _mealsUiState = MutableStateFlow(MealsUiState())
     val mealsUiState = _mealsUiState.asStateFlow()
 

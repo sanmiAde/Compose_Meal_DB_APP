@@ -25,7 +25,7 @@ fun MealCard(
     onCardClick: (mealCategoryId: String) -> Unit
 ) {
     Card(modifier = modifier, onClick = {
-
+        onCardClick(mealModel.id)
     }) {
         Column(
             modifier = Modifier

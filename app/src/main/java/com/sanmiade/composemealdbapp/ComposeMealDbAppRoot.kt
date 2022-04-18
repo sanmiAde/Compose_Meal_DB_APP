@@ -1,5 +1,6 @@
 package com.sanmiade.composemealdbapp
 
+import MealScreen
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,14 +12,15 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.sanmiade.composemealdbapp.Screen.Meals.mealCategoryName
 import com.sanmiade.composemealdbapp.ui.components.BottomBar
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesScreen
+import com.sanmiade.composemealdbapp.ui.features.meals.MealsNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.meals.MealsScreen
 import com.sanmiade.composemealdbapp.ui.features.savedMeals.SavedMeals
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchMealScreen
@@ -34,7 +36,7 @@ sealed class Screen(
         Icons.Default.List
     )
 
-    object MealCategory : Screen(
+    object Meals : Screen(
         "meal_category/{meal_category_name}",
         R.string.bottom_bar_meals
     ) {
@@ -53,6 +55,15 @@ sealed class Screen(
             "search_meals", R.string.bottom_bar_search_meals,
             Icons.Default.Search
         )
+
+    object Meal : Screen(
+        "meal/{name}",
+        R.string.bottom_bar_meals
+    ) {
+        val mealName = "name"
+        fun createRoute(name: String) = "meal/${name}"
+    }
+
 }
 
 val bottomBarScreens = listOf(Screen.MealCategories, Screen.SearchMeals, Screen.SavedMeals)
@@ -70,18 +81,18 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
             bottomBar = {
                 BottomBar(appState)
             }
-        ) {
+        ) { paddingValues ->
             NavHost(
                 navController = appState.navController,
                 startDestination = Screen.MealCategories.route,
-                modifier = Modifier.padding(it)
+                modifier = Modifier.padding(paddingValues)
             ) {
                 composable(Screen.MealCategories.route) {
-                    MealCategoriesScreen(scaffoldState) { event: MealCategoriesNavigationEvent ->
+                    MealCategoriesScreen(scaffoldState.snackbarHostState) { event: MealCategoriesNavigationEvent ->
                         when (event) {
                             is MealCategoriesNavigationEvent.ShowMealCategory -> {
                                 appState.navController.navigate(
-                                    Screen.MealCategory.createRoute(
+                                    Screen.Meals.createRoute(
                                         event.mealId
                                     )
                                 )
@@ -90,15 +101,21 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                     }
                 }
                 composable(
-                    Screen.MealCategory.route,
-                    listOf(navArgument(Screen.MealCategory.mealCategoryName) {
+                    Screen.Meals.route,
+                    listOf(navArgument(Screen.Meals.mealCategoryName) {
                         type = NavType.StringType
                     })
-                ) { navBackStackEntry: NavBackStackEntry ->
-                    val mealCategoryId =
-                        navBackStackEntry.arguments?.getString(Screen.MealCategory.mealCategoryName)!!
-                    MealsScreen(mealCategoryName = mealCategoryId, scaffoldState) {
-
+                ) {
+                    MealsScreen(scaffoldState.snackbarHostState) { mealsNavigationEvent ->
+                        when (mealsNavigationEvent) {
+                            is MealsNavigationEvent.ShowMeal -> {
+                                appState.navController.navigate(
+                                    Screen.Meal.createRoute(
+                                        mealsNavigationEvent.id
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
 
@@ -108,6 +125,10 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
 
                 composable(Screen.SavedMeals.route) {
                     SavedMeals()
+                }
+
+                composable(Screen.Meal.route) {
+                    MealScreen()
                 }
             }
         }

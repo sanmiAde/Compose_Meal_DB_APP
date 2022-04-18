@@ -1,28 +1,21 @@
 package com.sanmiade.composemealdbapp.ui.features.meals
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sanmiade.composemealdbapp.Screen.MealCategory.mealCategoryName
 import com.sanmiade.composemealdbapp.ui.components.Meals
-import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesEvent
-import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
-import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesUiState
 
 @Composable
 fun MealsScreen(
-    mealCategoryName: String,
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     navigationEvent: (MealsNavigationEvent) -> Unit
 ) {
     val mealsViewModel: MealsViewModel = hiltViewModel()
@@ -30,7 +23,7 @@ fun MealsScreen(
 
     MealsContent(
         modifier = Modifier,
-        scaffoldState = scaffoldState,
+        snackBarHostState = snackBarHostState,
         mealsUiState = mealsUiState,
         handleNavigationEvent = navigationEvent,
         handleEvent = mealsViewModel::handleEvent
@@ -40,7 +33,7 @@ fun MealsScreen(
 @Composable
 fun MealsContent(
     modifier: Modifier,
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     mealsUiState: MealsUiState,
     handleNavigationEvent: (event: MealsNavigationEvent) -> Unit,
     handleEvent: (event: MealsEvent) -> Unit,
@@ -51,7 +44,22 @@ fun MealsContent(
         }
     } else {
         Meals(modifier = modifier, mealCategoryModels = mealsUiState.meals) {
-
+            handleNavigationEvent(MealsNavigationEvent.ShowMeal(it))
+        }
+        mealsUiState.error?.let {
+            val errorMessage = stringResource(id = it)
+            LaunchedEffect(snackBarHostState) {
+                snackBarHostState.showSnackbar(
+                    message = errorMessage,
+                ).also { snackBarResult: SnackbarResult ->
+                    when (snackBarResult) {
+                        SnackbarResult.Dismissed -> {
+                            handleEvent(MealsEvent.ErrorDismissed)
+                        }
+                        SnackbarResult.ActionPerformed -> {}
+                    }
+                }
+            }
         }
     }
 }
