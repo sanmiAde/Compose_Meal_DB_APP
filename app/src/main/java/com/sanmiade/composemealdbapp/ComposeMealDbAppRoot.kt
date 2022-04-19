@@ -6,15 +6,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.sanmiade.composemealdbapp.Screen.Meals.mealCategoryName
 import com.sanmiade.composemealdbapp.ui.components.BottomBar
@@ -25,6 +29,7 @@ import com.sanmiade.composemealdbapp.ui.features.meals.MealsScreen
 import com.sanmiade.composemealdbapp.ui.features.savedMeals.SavedMeals
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchMealScreen
 import com.sanmiade.composemealdbapp.ui.theme.ComposeMealDBAPpTheme
+import java.lang.IllegalStateException
 
 sealed class Screen(
     val route: String,
@@ -76,7 +81,57 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
             modifier = Modifier.fillMaxSize(),
             scaffoldState = scaffoldState,
             topBar = {
-                TopAppBar(title = { Text(text = "Hello") })
+                val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                currentDestination?.route?.let {
+                    when (it) {
+                        Screen.MealCategories.route -> {
+                            com.sanmiade.composemealdbapp.ui.components.TopAppBar(
+                                modifier = Modifier,
+                                title = "Categories",
+                                showNavigationIcon = false
+                            ) {
+                                appState.navigateBack()
+                            }
+
+                        }
+                        Screen.Meals.route -> {
+                            com.sanmiade.composemealdbapp.ui.components.TopAppBar(
+                                modifier = Modifier,
+                                title = "Meals",
+                                navigationIcon = Icons.Default.ArrowBack
+                            ) {
+                                appState.navigateBack()
+                            }
+                        }
+                        Screen.Meal.route -> {
+                            com.sanmiade.composemealdbapp.ui.components.TopAppBar(
+                                modifier = Modifier,
+                                title = "Meal",
+                                navigationIcon = Icons.Default.ArrowBack
+                            ) {
+                                appState.navigateBack()
+                            }
+                        }
+                        Screen.SearchMeals.route -> {
+                            com.sanmiade.composemealdbapp.ui.components.TopAppBar(
+                                modifier = Modifier,
+                                title = "Search",
+                                showNavigationIcon = false
+                            )
+                        }
+                        Screen.SavedMeals.route -> {
+                            com.sanmiade.composemealdbapp.ui.components.TopAppBar(
+                                modifier = Modifier,
+                                title = "Saved meals",
+                                showNavigationIcon = false
+                            )
+                        }
+                        else -> {
+                            throw IllegalStateException("Top app bar for this destination doesn't exist")
+                        }
+                    }
+                }
             },
             bottomBar = {
                 BottomBar(appState)
