@@ -1,14 +1,19 @@
 package com.sanmiade.composemealdbapp.di
 
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sanmiade.composemealdbapp.BuildConfig
 import com.sanmiade.composemealdbapp.data.CoroutinesDispatcher
+import com.sanmiade.composemealdbapp.data.local.ComposeMealDatabase
 import com.sanmiade.composemealdbapp.data.remote.MealDBService
 import com.sanmiade.composemealdbapp.domain.AsyncDispatcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -55,10 +60,21 @@ object AppModule {
         return retrofit.create(MealDBService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun providesMealsDatabase(@ApplicationContext context: Context): ComposeMealDatabase {
+        return Room.databaseBuilder(
+            context,
+            ComposeMealDatabase::class.java, "compose_meal_database"
+        ).build()
+    }
+
+
+
     @Module
     @InstallIn(SingletonComponent::class)
     abstract class AppBindModule {
         @Binds
-        abstract fun bindAsyncDispatcher(coroutinesDispatcher: CoroutinesDispatcher) : AsyncDispatcher
+        abstract fun bindAsyncDispatcher(coroutinesDispatcher: CoroutinesDispatcher): AsyncDispatcher
     }
 }

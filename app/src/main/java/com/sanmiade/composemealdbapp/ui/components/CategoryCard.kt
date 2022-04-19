@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.sanmiade.composemealdbapp.domain.model.MealCategoryModel
+import com.sanmiade.composemealdbapp.ui.theme.ComposeMealDBAPpTheme
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -86,4 +88,14 @@ fun MealCategories(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MealCategoryCardPreview() {
+    MealCategoryCard(
+        Modifier
+            .height(200.dp)
+            .padding(8.dp),
+        MealCategoryModel("1", "Meat", "http:ffhfj", description = "hellow world"), {})
 }

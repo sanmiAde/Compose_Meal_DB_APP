@@ -8,13 +8,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ViewModelScoped
-class GetMealsUseCase @Inject constructor(
+class SaveMealUseCase @Inject constructor(
     private val mealsRepository: MealsRepository,
     private val asyncDispatcher: AsyncDispatcher
 ) {
-    suspend operator fun invoke(categoryName: String): Result<List<MealModel>> {
-        return withContext(asyncDispatcher.io) {
-            mealsRepository.getMeals(categoryName)
+    suspend operator fun invoke(mealModel: MealModel) {
+        withContext(asyncDispatcher.io) {
+            val isSavedMeal = mealsRepository.isMealSaved(mealModel.id)
+            if (isSavedMeal) {
+                mealsRepository.deleteMeal(mealModel)
+            } else {
+                mealsRepository.saveMeal(mealModel)
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ buildscript {
     ext {
         compose_ui_version = '1.1.1'
         kotlin_version = '1.6.10'
-        gradle_version = '7.3.0-alpha07'
+        gradle_version = '7.3.0-alpha08'
         //retrofit
         retrofit_interceptor_version = '4.7.2'
         retrofit_version = '2.9.0'

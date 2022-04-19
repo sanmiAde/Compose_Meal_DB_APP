@@ -43,9 +43,13 @@ fun MealsContent(
             CircularProgressIndicator()
         }
     } else {
-        Meals(modifier = modifier, mealCategoryModels = mealsUiState.meals) {
-            handleNavigationEvent(MealsNavigationEvent.ShowMeal(it))
-        }
+        Meals(modifier = modifier,
+            mealCategoryModels = mealsUiState.meals,
+            onDoubleCardClick = {
+                handleEvent(MealsEvent.SaveMeal(it))
+            }, onCardClick = {
+                handleNavigationEvent(MealsNavigationEvent.ShowMeal(it))
+            })
         mealsUiState.error?.let {
             val errorMessage = stringResource(id = it)
             LaunchedEffect(snackBarHostState) {
