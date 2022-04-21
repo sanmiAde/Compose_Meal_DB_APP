@@ -7,17 +7,47 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.sanmiade.composemealdbapp.Screen
-import com.sanmiade.composemealdbapp.bottomBarScreens
-import java.lang.IllegalStateException
+import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchViewModel
 
 @Composable
-fun Topbar(
+fun TopBar(
     modifier: Modifier,
     route: String,
+    searchViewModel: SearchViewModel,
     onNavigationIconClick: () -> Unit
 ) {
+    val title = getTitle(route)
+    when {
+        Screen.SearchMeals.route == route -> {
+            SearchTopAppBar(
+                searchViewModel = searchViewModel
+            )
+        }
+        title in listOf(Screen.SavedMeals.title, Screen.MealCategories.title) -> {
+            androidx.compose.material.TopAppBar(
+                modifier = modifier,
+                title = { Text(text = title) },
+            )
+        }
+        else -> {
+            androidx.compose.material.TopAppBar(
+                modifier = modifier,
+                title = { Text(text = title) },
+                navigationIcon = {
+                    IconButton(onClick = { onNavigationIconClick() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Navigation icon"
+                        )
+                    }
+                })
+        }
+    }
+}
+
+@Composable
+private fun getTitle(route: String): String {
     val title = when (route) {
         Screen.SavedMeals.route -> {
             Screen.SavedMeals.title
@@ -38,23 +68,5 @@ fun Topbar(
             throw IllegalStateException("Top app bar for this destination doesn't exist")
         }
     }
-    if (title in bottomBarScreens.map { it.title }) {
-        androidx.compose.material.TopAppBar(
-            modifier = modifier,
-            title = { Text(text = title) },
-        )
-    } else {
-        androidx.compose.material.TopAppBar(
-            modifier = modifier,
-            title = { Text(text = title) },
-            navigationIcon = {
-                IconButton(onClick = { onNavigationIconClick() }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Navigation icon"
-                    )
-                }
-            })
-
-    }
+    return title
 }

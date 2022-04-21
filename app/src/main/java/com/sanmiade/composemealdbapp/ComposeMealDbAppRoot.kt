@@ -22,7 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.sanmiade.composemealdbapp.ui.components.BottomBar
-import com.sanmiade.composemealdbapp.ui.components.Topbar
+import com.sanmiade.composemealdbapp.ui.components.TopBar
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.mealCategories.MealCategoriesScreen
 import com.sanmiade.composemealdbapp.ui.features.meals.MealsNavigationEvent
@@ -93,7 +93,7 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                 val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 currentDestination?.route?.let {
-                    Topbar(modifier = Modifier, route = it) {
+                    TopBar(modifier = Modifier, route = it, searchViewModel = searchViewModel) {
                         appState.navigateBack()
                     }
                 }

@@ -1,6 +1,5 @@
 package com.sanmiade.composemealdbapp.domain.repo
 
-import com.sanmiade.composemealdbapp.domain.model.MealDetailModel
 import com.sanmiade.composemealdbapp.domain.model.MealModel
 
 interface MealsRepository {

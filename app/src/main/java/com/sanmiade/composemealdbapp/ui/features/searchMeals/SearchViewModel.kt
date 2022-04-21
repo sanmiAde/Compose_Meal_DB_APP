@@ -2,7 +2,6 @@ package com.sanmiade.composemealdbapp.ui.features.searchMeals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sanmiade.composemealdbapp.domain.usecase.SaveMealUseCase
 import com.sanmiade.composemealdbapp.domain.usecase.SearchMealUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -22,7 +21,7 @@ class SearchViewModel @Inject constructor(private val searchMealUseCase: SearchM
 
     init {
         viewModelScope.launch {
-            _query.filterNot { it.isEmpty() }.debounce(300).collect {
+            _query.debounce(300).filter { it.isNotEmpty() }.collect {
                 searchMeal(it)
             }
         }
