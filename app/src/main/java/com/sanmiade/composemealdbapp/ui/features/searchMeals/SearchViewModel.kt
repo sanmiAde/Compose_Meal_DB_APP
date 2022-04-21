@@ -5,7 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.sanmiade.composemealdbapp.domain.usecase.SearchMealUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +24,7 @@ class SearchViewModel @Inject constructor(private val searchMealUseCase: SearchM
 
     init {
         viewModelScope.launch {
-            _query.debounce(300).filter { it.isNotEmpty() }.collect {
+            _query.debounce(300).collect {
                 searchMeal(it)
             }
         }
