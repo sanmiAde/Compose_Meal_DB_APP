@@ -29,6 +29,7 @@ import com.sanmiade.composemealdbapp.ui.features.meals.MealsNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.meals.MealsScreen
 import com.sanmiade.composemealdbapp.ui.features.savedMeals.SavedMeals
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchMealScreen
+import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchNavigationEvent
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchViewModel
 import com.sanmiade.composemealdbapp.ui.theme.ComposeMealDBAPpTheme
 
@@ -72,7 +73,6 @@ sealed class Screen(
         R.string.bottom_bar_meals,
         "Meal",
     ) {
-        val mealName = "name"
         fun createRoute(name: String) = "meal/${name}"
     }
 
@@ -140,7 +140,17 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                 }
 
                 composable(Screen.SearchMeals.route) {
-                    SearchMealScreen(searchViewModel)
+                    SearchMealScreen(searchViewModel) { searchNavigationEvent: SearchNavigationEvent ->
+                        when (searchNavigationEvent) {
+                            is SearchNavigationEvent.ShowMeal -> {
+                                appState.navController.navigate(
+                                    Screen.Meal.createRoute(
+                                        searchNavigationEvent.id
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
 
                 composable(Screen.SavedMeals.route) {
