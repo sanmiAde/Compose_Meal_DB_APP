@@ -5,9 +5,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MealsResponse(
+data class MealResponses(
     @SerialName("meals")
     val meals: List<MealResponse>
 )
 
-fun MealsResponse.toDomain() = meals.map { it.toDomain() }
+fun MealResponses.toDomain() = meals.map { it.toDomain() }

@@ -2,7 +2,7 @@ package com.sanmiade.composemealdbapp.data.local.datasource
 
 import com.sanmiade.composemealdbapp.data.local.dao.MealDao
 import com.sanmiade.composemealdbapp.data.local.model.MealEntity
-import com.sanmiade.composemealdbapp.domain.repo.LocalMealsDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.LocalMealsDataSource
 import javax.inject.Inject
 
 class LocalMealsDataSourceImpl @Inject constructor(private val mealDao: MealDao) :

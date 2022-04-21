@@ -3,34 +3,58 @@ package com.sanmiade.composemealdbapp.ui.components
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.sanmiade.composemealdbapp.Screen
+import com.sanmiade.composemealdbapp.bottomBarScreens
+import java.lang.IllegalStateException
 
 @Composable
-fun TopAppBar(
+fun Topbar(
     modifier: Modifier,
-    title: String,
-    showNavigationIcon : Boolean = true,
-    navigationIcon: ImageVector? = null,
-    onNavigationIconClick: () -> Unit = {}
+    route: String,
+    onNavigationIconClick: () -> Unit
 ) {
-    if (showNavigationIcon) {
+    val title = when (route) {
+        Screen.SavedMeals.route -> {
+            Screen.SavedMeals.title
+        }
+        Screen.SearchMeals.route -> {
+            Screen.SearchMeals.title
+        }
+        Screen.MealCategories.route -> {
+            Screen.MealCategories.title
+        }
+        Screen.Meals.route -> {
+            Screen.Meals.title
+        }
+        Screen.Meal.route -> {
+            Screen.Meal.title
+        }
+        else -> {
+            throw IllegalStateException("Top app bar for this destination doesn't exist")
+        }
+    }
+    if (title in bottomBarScreens.map { it.title }) {
+        androidx.compose.material.TopAppBar(
+            modifier = modifier,
+            title = { Text(text = title) },
+        )
+    } else {
         androidx.compose.material.TopAppBar(
             modifier = modifier,
             title = { Text(text = title) },
             navigationIcon = {
                 IconButton(onClick = { onNavigationIconClick() }) {
                     Icon(
-                        imageVector = navigationIcon!!,
+                        imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Navigation icon"
                     )
                 }
             })
-    } else {
-        androidx.compose.material.TopAppBar(
-            modifier = modifier,
-            title = { Text(text = title) },
-        )
+
     }
 }

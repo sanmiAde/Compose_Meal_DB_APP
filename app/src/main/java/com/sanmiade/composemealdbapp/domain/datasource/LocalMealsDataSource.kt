@@ -1,4 +1,4 @@
-package com.sanmiade.composemealdbapp.domain.repo
+package com.sanmiade.composemealdbapp.domain.datasource
 
 import com.sanmiade.composemealdbapp.data.local.model.MealEntity
 

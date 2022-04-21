@@ -7,6 +7,9 @@ import com.sanmiade.composemealdbapp.data.remote.datasource.mealCategories.Remot
 import com.sanmiade.composemealdbapp.data.remote.datasource.meals.RemoteMealsDataSourceImpl
 import com.sanmiade.composemealdbapp.data.remote.repo.mealCategories.MealCategoriesRepositoryImpl
 import com.sanmiade.composemealdbapp.data.remote.repo.meals.MealsRepositoryImpl
+import com.sanmiade.composemealdbapp.domain.datasource.LocalMealsDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.RemoteMealCategoriesDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.RemoteMealsDataSource
 import com.sanmiade.composemealdbapp.domain.repo.*
 import dagger.Binds
 import dagger.Module

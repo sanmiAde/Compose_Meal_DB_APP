@@ -2,7 +2,7 @@ package com.sanmiade.composemealdbapp.data.remote.datasource.mealCategories
 
 import com.sanmiade.composemealdbapp.data.remote.MealDBService
 import com.sanmiade.composemealdbapp.data.remote.response.mealCategories.MealCategoriesResponse
-import com.sanmiade.composemealdbapp.domain.repo.RemoteMealCategoriesDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.RemoteMealCategoriesDataSource
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

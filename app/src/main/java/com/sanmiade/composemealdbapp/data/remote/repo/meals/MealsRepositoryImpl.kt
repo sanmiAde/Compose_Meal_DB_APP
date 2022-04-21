@@ -1,11 +1,13 @@
 package com.sanmiade.composemealdbapp.data.remote.repo.meals
 
 import com.sanmiade.composemealdbapp.data.local.model.MealEntity
+import com.sanmiade.composemealdbapp.data.remote.response.mealDetail.toMealDomain
 import com.sanmiade.composemealdbapp.data.remote.response.meals.toDomain
 import com.sanmiade.composemealdbapp.domain.model.MealModel
-import com.sanmiade.composemealdbapp.domain.repo.LocalMealsDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.LocalMealsDataSource
 import com.sanmiade.composemealdbapp.domain.repo.MealsRepository
-import com.sanmiade.composemealdbapp.domain.repo.RemoteMealsDataSource
+import com.sanmiade.composemealdbapp.domain.datasource.RemoteMealsDataSource
+import com.sanmiade.composemealdbapp.domain.model.MealDetailModel
 import com.sanmiade.composemealdbapp.utils.runSuspendCatching
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
@@ -40,5 +42,9 @@ class MealsRepositoryImpl @Inject constructor(
         MealEntity.fromDomain(mealModel).run {
             localMealsDataSource.deleteMeal(this)
         }
+    }
+
+    override suspend fun searchMeals(query: String): Result<List<MealModel>> {
+        return runSuspendCatching { remoteMealsDataSource.searchMeal(query = query).toMealDomain() }
     }
 }
