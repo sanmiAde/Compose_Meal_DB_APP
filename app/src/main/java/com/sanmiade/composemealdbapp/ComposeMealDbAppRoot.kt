@@ -33,12 +33,17 @@ import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchNavigationEve
 import com.sanmiade.composemealdbapp.ui.features.searchMeals.SearchViewModel
 import com.sanmiade.composemealdbapp.ui.theme.ComposeMealDBAPpTheme
 
+const val MEAL_CATEGORIES_NAME = "meal_category_name"
+const val MEAL_NAME = "meal_name"
+
 sealed class Screen(
     val route: String,
     @StringRes val resourceId: Int,
     val title: String,
     val icon: ImageVector? = null
 ) {
+    open fun createRoute(arg: String): String = route
+
     object MealCategories : Screen(
         "meal_categories", R.string.bottom_bar_meals_categories,
         "Categories",
@@ -50,8 +55,7 @@ sealed class Screen(
         R.string.bottom_bar_meals,
         "Meals",
     ) {
-        val mealCategoryName = "meal_category_name"
-        fun createRoute(mealCategoryName: String) = "meal_category/${mealCategoryName}"
+        override fun createRoute(arg: String) = "meal_category/${arg}"
     }
 
     object SavedMeals :
@@ -63,17 +67,19 @@ sealed class Screen(
 
     object SearchMeals :
         Screen(
-            "search_meals", R.string.bottom_bar_search_meals,
+            "search_meals/{meal_name}", R.string.bottom_bar_search_meals,
             "Search Meals",
             Icons.Default.Search
-        )
+        ) {
+        override fun createRoute(arg: String): String = "search_meals/$arg"
+    }
 
     object Meal : Screen(
         "meal/{name}",
         R.string.bottom_bar_meals,
         "Meal",
     ) {
-        fun createRoute(name: String) = "meal/${name}"
+        override fun createRoute(arg: String) = "meal/${arg}"
     }
 
 }
@@ -122,7 +128,7 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                 }
                 composable(
                     Screen.Meals.route,
-                    listOf(navArgument(Screen.Meals.mealCategoryName) {
+                    listOf(navArgument(MEAL_CATEGORIES_NAME) {
                         type = NavType.StringType
                     })
                 ) {
@@ -139,7 +145,12 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                     }
                 }
 
-                composable(Screen.SearchMeals.route) {
+                composable(
+                    route = Screen.SearchMeals.route,
+                    listOf(navArgument(MEAL_NAME) {
+                        type = NavType.StringType
+                    })
+                ) {
                     SearchMealScreen(searchViewModel) { searchNavigationEvent: SearchNavigationEvent ->
                         when (searchNavigationEvent) {
                             is SearchNavigationEvent.ShowMeal -> {

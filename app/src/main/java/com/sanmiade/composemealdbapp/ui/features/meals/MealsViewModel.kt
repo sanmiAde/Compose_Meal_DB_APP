@@ -3,7 +3,7 @@ package com.sanmiade.composemealdbapp.ui.features.meals
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sanmiade.composemealdbapp.Screen
+import com.sanmiade.composemealdbapp.MEAL_CATEGORIES_NAME
 import com.sanmiade.composemealdbapp.domain.model.MealModel
 import com.sanmiade.composemealdbapp.domain.usecase.GetMealsUseCase
 import com.sanmiade.composemealdbapp.domain.usecase.SaveMealUseCase
@@ -20,7 +20,7 @@ class MealsViewModel @Inject constructor(
     private val saveMealUseCase: SaveMealUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val categoryName: String = savedStateHandle.get(Screen.Meals.mealCategoryName)!!
+    private val categoryName: String = savedStateHandle.get(MEAL_CATEGORIES_NAME)!!
     private val _mealsUiState = MutableStateFlow(MealsUiState())
     val mealsUiState = _mealsUiState.asStateFlow()
 
