@@ -1,5 +1,6 @@
 package com.sanmiade.composemealdbapp.domain.repo
 
+import com.sanmiade.composemealdbapp.domain.model.MealDetailModel
 import com.sanmiade.composemealdbapp.domain.model.MealModel
 
 interface MealsRepository {
@@ -9,4 +10,5 @@ interface MealsRepository {
     suspend fun saveMeal(mealModel: MealModel)
     suspend fun deleteMeal(mealModel: MealModel)
     suspend fun searchMeals(name: String): Result<List<MealModel>>
+    suspend fun getMeal(name: String) : Result<MealDetailModel>
 }

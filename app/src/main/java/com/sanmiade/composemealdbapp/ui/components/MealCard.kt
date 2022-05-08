@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,11 +21,11 @@ import com.sanmiade.composemealdbapp.domain.model.MealModel
 fun MealCard(
     modifier: Modifier,
     mealModel: MealModel,
-    onCardClick: (mealCategoryId: String) -> Unit,
+    onCardClick: (mealName: String) -> Unit,
     onSaveMeal: (mealModel: MealModel) -> Unit
 ) {
     Card(modifier = modifier, onClick = {
-        onCardClick(mealModel.id)
+        onCardClick(mealModel.name)
     }) {
         Column(
             modifier = Modifier
@@ -58,7 +55,7 @@ fun MealCard(
 fun Meals(
     modifier: Modifier,
     mealCategoryModels: List<MealModel>,
-    onCardClick: (mealId: String) -> Unit,
+    onCardClick: (mealName: String) -> Unit,
     onDoubleCardClick: (mealModel: MealModel) -> Unit,
 ) {
     LazyVerticalGrid(

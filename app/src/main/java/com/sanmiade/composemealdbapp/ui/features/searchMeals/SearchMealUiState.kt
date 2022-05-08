@@ -5,7 +5,7 @@ import com.sanmiade.composemealdbapp.domain.model.MealModel
 
 data class SearchMealUiState(
     val searchInProgress: Boolean = false,
-    val result: List<MealModel> = emptyList(),
+    val result: List<MealModel>? = null,
     val query: String = "",
     val error: String? = null
 )

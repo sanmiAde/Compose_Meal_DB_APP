@@ -117,28 +117,29 @@ data class MealDetailResponse(
 )
 
 fun MealDetailResponse.toDomain(): MealDetailModel {
-    val ingredients = mutableListOf<Ingredient>().apply {
-        Ingredient(this@toDomain.strIngredient1, this@toDomain.strMeasure1)
-        Ingredient(this@toDomain.strIngredient2, this@toDomain.strMeasure2)
-        Ingredient(this@toDomain.strIngredient3, this@toDomain.strMeasure3)
-        Ingredient(this@toDomain.strIngredient4, this@toDomain.strMeasure4)
-        Ingredient(this@toDomain.strIngredient5, this@toDomain.strMeasure5)
-        Ingredient(this@toDomain.strIngredient6, this@toDomain.strMeasure6)
-        Ingredient(this@toDomain.strIngredient7, this@toDomain.strMeasure7)
-        Ingredient(this@toDomain.strIngredient8, this@toDomain.strMeasure8)
-        Ingredient(this@toDomain.strIngredient9, this@toDomain.strMeasure9)
-        Ingredient(this@toDomain.strIngredient10, this@toDomain.strMeasure10)
-        Ingredient(this@toDomain.strIngredient11, this@toDomain.strMeasure11)
-        Ingredient(this@toDomain.strIngredient12, this@toDomain.strMeasure12)
-        Ingredient(this@toDomain.strIngredient13, this@toDomain.strMeasure13)
-        Ingredient(this@toDomain.strIngredient15, this@toDomain.strMeasure15)
-        Ingredient(this@toDomain.strIngredient16, this@toDomain.strMeasure16)
-        Ingredient(this@toDomain.strIngredient17, this@toDomain.strMeasure17)
-        Ingredient(this@toDomain.strIngredient18, this@toDomain.strMeasure18)
-        Ingredient(this@toDomain.strIngredient19, this@toDomain.strMeasure19)
-        Ingredient(this@toDomain.strIngredient20, this@toDomain.strMeasure20)
+    val ingredients = mutableListOf<Ingredient>().run {
+        add(Ingredient(this@toDomain.strIngredient1, this@toDomain.strMeasure1))
+        add(Ingredient(this@toDomain.strIngredient2, this@toDomain.strMeasure2))
+        add(Ingredient(this@toDomain.strIngredient3, this@toDomain.strMeasure3))
+        add(Ingredient(this@toDomain.strIngredient4, this@toDomain.strMeasure4))
+        add(Ingredient(this@toDomain.strIngredient5, this@toDomain.strMeasure5))
+        add(Ingredient(this@toDomain.strIngredient6, this@toDomain.strMeasure6))
+        add(Ingredient(this@toDomain.strIngredient7, this@toDomain.strMeasure7))
+        add(Ingredient(this@toDomain.strIngredient8, this@toDomain.strMeasure8))
+        add(Ingredient(this@toDomain.strIngredient9, this@toDomain.strMeasure9))
+        add(Ingredient(this@toDomain.strIngredient10, this@toDomain.strMeasure10))
+        add(Ingredient(this@toDomain.strIngredient11, this@toDomain.strMeasure11))
+        add(Ingredient(this@toDomain.strIngredient12, this@toDomain.strMeasure12))
+        add(Ingredient(this@toDomain.strIngredient13, this@toDomain.strMeasure13))
+        add(Ingredient(this@toDomain.strIngredient15, this@toDomain.strMeasure15))
+        add(Ingredient(this@toDomain.strIngredient16, this@toDomain.strMeasure16))
+        add(Ingredient(this@toDomain.strIngredient17, this@toDomain.strMeasure17))
+        add(Ingredient(this@toDomain.strIngredient18, this@toDomain.strMeasure18))
+        add(Ingredient(this@toDomain.strIngredient19, this@toDomain.strMeasure19))
+        add(Ingredient(this@toDomain.strIngredient20, this@toDomain.strMeasure20))
+        this.filter { it.item != null && it.item != "" }
     }
-   return MealDetailModel(
+    return MealDetailModel(
         id = idMeal,
         name = strMeal,
         category = strCategory,
@@ -146,6 +147,7 @@ fun MealDetailResponse.toDomain(): MealDetailModel {
         instructions = strInstructions,
         thumbNail = strMealThumb,
         videoLink = strYoutube,
-        source = strSource
+        source = strSource,
+        ingredients = ingredients
     )
 }

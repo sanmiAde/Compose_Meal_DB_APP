@@ -34,12 +34,14 @@ fun SearchMealContent(
             CircularProgressIndicator()
         }
     } else {
-        Meals(modifier = modifier,
-            mealCategoryModels = searchMealUiState.result,
-            onDoubleCardClick = {
+        searchMealUiState.result?.let { result ->
+            Meals(modifier = modifier,
+                mealCategoryModels = result,
+                onDoubleCardClick = {
 
-            }, onCardClick = {
-                handleNavigationEvent(SearchNavigationEvent.ShowMeal(it))
-            })
+                }, onCardClick = {
+                    handleNavigationEvent(SearchNavigationEvent.ShowMeal(it))
+                })
+        }
     }
 }

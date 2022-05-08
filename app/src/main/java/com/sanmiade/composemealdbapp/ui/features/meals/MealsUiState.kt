@@ -5,7 +5,7 @@ import com.sanmiade.composemealdbapp.R
 import com.sanmiade.composemealdbapp.domain.model.MealModel
 
 data class MealsUiState(
-    val meals: List<MealModel> = emptyList(),
+    val meals: List<MealModel>? = null,
     val showProgress: Boolean = false,
     @StringRes val error: Int? = null
 )

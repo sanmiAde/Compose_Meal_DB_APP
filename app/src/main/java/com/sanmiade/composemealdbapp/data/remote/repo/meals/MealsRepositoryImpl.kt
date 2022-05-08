@@ -1,10 +1,12 @@
 package com.sanmiade.composemealdbapp.data.remote.repo.meals
 
 import com.sanmiade.composemealdbapp.data.local.model.MealEntity
+import com.sanmiade.composemealdbapp.data.remote.response.mealDetail.toDomain
 import com.sanmiade.composemealdbapp.data.remote.response.mealDetail.toMealDomain
 import com.sanmiade.composemealdbapp.data.remote.response.meals.toDomain
 import com.sanmiade.composemealdbapp.domain.datasource.LocalMealsDataSource
 import com.sanmiade.composemealdbapp.domain.datasource.RemoteMealsDataSource
+import com.sanmiade.composemealdbapp.domain.model.MealDetailModel
 import com.sanmiade.composemealdbapp.domain.model.MealModel
 import com.sanmiade.composemealdbapp.domain.repo.MealsRepository
 import com.sanmiade.composemealdbapp.utils.suspendRunCatching
@@ -45,5 +47,11 @@ class MealsRepositoryImpl @Inject constructor(
 
     override suspend fun searchMeals(name: String): Result<List<MealModel>> {
         return suspendRunCatching { remoteMealsDataSource.searchMeal(query = name).toMealDomain() }
+    }
+
+    override suspend fun getMeal(name: String): Result<MealDetailModel> {
+        return suspendRunCatching {
+            remoteMealsDataSource.searchMeal(query = name).toDomain().first()
+        }
     }
 }

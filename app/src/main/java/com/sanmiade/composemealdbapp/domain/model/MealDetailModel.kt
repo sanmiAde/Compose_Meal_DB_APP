@@ -8,7 +8,8 @@ data class MealDetailModel(
     val instructions: String,
     val thumbNail: String,
     val videoLink: String,
-    val source: String?
+    val source: String?,
+    val ingredients : List<Ingredient>
 )
 
 data class Ingredient(val item: String?, val quantity: String?) {

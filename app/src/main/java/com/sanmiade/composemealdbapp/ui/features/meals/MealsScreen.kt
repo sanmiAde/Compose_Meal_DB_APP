@@ -2,7 +2,9 @@ package com.sanmiade.composemealdbapp.ui.features.meals
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,13 +45,15 @@ fun MealsContent(
             CircularProgressIndicator()
         }
     } else {
-        Meals(modifier = modifier,
-            mealCategoryModels = mealsUiState.meals,
-            onDoubleCardClick = {
-                handleEvent(MealsEvent.SaveMeal(it))
-            }, onCardClick = {
-                handleNavigationEvent(MealsNavigationEvent.ShowMeal(it))
-            })
+        mealsUiState.meals?.let { meals ->
+            Meals(modifier = modifier,
+                mealCategoryModels = meals,
+                onDoubleCardClick = {
+                    handleEvent(MealsEvent.SaveMeal(it))
+                }, onCardClick = {
+                    handleNavigationEvent(MealsNavigationEvent.ShowMeal(it))
+                })
+        }
         mealsUiState.error?.let {
             val errorMessage = stringResource(id = it)
             LaunchedEffect(snackBarHostState) {

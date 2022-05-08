@@ -67,15 +67,14 @@ sealed class Screen(
 
     object SearchMeals :
         Screen(
-            "search_meals/{meal_name}", R.string.bottom_bar_search_meals,
+            "search_meals", R.string.bottom_bar_search_meals,
             "Search Meals",
             Icons.Default.Search
         ) {
-        override fun createRoute(arg: String): String = "search_meals/$arg"
     }
 
     object Meal : Screen(
-        "meal/{name}",
+        "meal/{meal_name}",
         R.string.bottom_bar_meals,
         "Meal",
     ) {
@@ -147,9 +146,6 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
 
                 composable(
                     route = Screen.SearchMeals.route,
-                    listOf(navArgument(MEAL_NAME) {
-                        type = NavType.StringType
-                    })
                 ) {
                     SearchMealScreen(searchViewModel) { searchNavigationEvent: SearchNavigationEvent ->
                         when (searchNavigationEvent) {
@@ -168,7 +164,10 @@ fun ComposeMealDbAppRoot(appState: ComposeMealDbAppState = rememberComposeMealDb
                     SavedMeals()
                 }
 
-                composable(Screen.Meal.route) {
+                composable(Screen.Meal.route,
+                    listOf(navArgument(MEAL_NAME) {
+                    type = NavType.StringType
+                })) {
                     MealScreen()
                 }
             }
