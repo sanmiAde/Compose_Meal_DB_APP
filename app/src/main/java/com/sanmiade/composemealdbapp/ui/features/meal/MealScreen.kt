@@ -1,7 +1,6 @@
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.sanmiade.composemealdbapp.domain.model.MealDetailModel
 import com.sanmiade.composemealdbapp.ui.components.IngredientsList
+import com.sanmiade.composemealdbapp.ui.components.MealInstructions
 import com.sanmiade.composemealdbapp.ui.features.meal.MealUiState
 import com.sanmiade.composemealdbapp.ui.features.meal.MealViewModel
 
@@ -33,7 +33,7 @@ fun MealContent(modifier: Modifier, mealUiState: MealUiState) {
         }
     } else {
         mealUiState.mealDetail?.let { mealDetailModel: MealDetailModel ->
-            Column(modifier) {
+            Column(modifier.verticalScroll(rememberScrollState())) {
                 AsyncImage(
                     modifier = Modifier
                         .height(300.dp)
@@ -42,7 +42,8 @@ fun MealContent(modifier: Modifier, mealUiState: MealUiState) {
                     contentDescription = mealDetailModel.name,
                     contentScale = ContentScale.FillBounds,
                 )
-                IngredientsList(modifier = modifier, ingredients = mealDetailModel.ingredients)
+                MealInstructions(modifier = Modifier.padding(8.dp), instructions = mealDetailModel.instructions)
+                IngredientsList(modifier = Modifier.padding(8.dp), ingredients = mealDetailModel.ingredients)
             }
         }
     }
